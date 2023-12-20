@@ -451,3 +451,22 @@ INSERT INTO vitalsigns (patient_id, measurement_datetime, temperature, blood_pre
 (15, '2022-05-05 14:45:00', 98.0, '122/78', 69, 68.7, 166);
 
 select * from vitalsigns
+
+CREATE TABLE accounts (
+    account_id SERIAL PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    phone_number VARCHAR(15) NOT NULL UNIQUE,
+    full_name VARCHAR(100) NOT NULL,
+    password_hash VARCHAR(255) NOT NULL
+);
+
+ALTER TABLE patients
+ADD COLUMN account_id INT UNIQUE,
+ADD COLUMN health_info TEXT,
+ADD FOREIGN KEY (account_id) REFERENCES accounts(account_id);
+
+
+ALTER TABLE doctors
+ADD COLUMN specialty_id_fk INTEGER,
+ADD FOREIGN KEY (specialty_id_fk) REFERENCES doctorspecialties(specialty_id);
